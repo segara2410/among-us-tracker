@@ -1,16 +1,18 @@
 import React from 'react';
 import Player from './Player';
 import styled from 'styled-components';
-import {Droppable, Draggable} from 'react-beautiful-dnd';
+import {Droppable} from 'react-beautiful-dnd';
 
 const CardContainer = styled.div`
-  width: 300px;
-  margin: 0px 25px;
+  width: 180px;
+  margin: 25px 25px;
   background: ${props => props.color};
   border: ${props => (props.isDraggingOver ? '4px dashed #FFF' : '4px dashed rgba(0,0,0,0)')};
   border-radius: 40px;
   padding: 15px;
   box-shadow: 25px 25px 50px rgba(0, 0, 0, 0.15);
+  display: inline-block;
+  vertical-align:top
 `
 
 const CardTitle = styled.h3`
@@ -27,25 +29,21 @@ const PlayerContainer = styled.div`
   width: 100%;
 `
 
-function Card({card, players, index}) {
+function Card({card, players}) {
   return (
-    <Draggable draggableId={card.id} index={index}>
-      {(provided) => (  
-        <Droppable droppableId={card.id} type="player">
-          {(provided2, snapshot) => (
-          <CardContainer ref={provided.innerRef} color={card.color} {...provided.dragHandleProps} isDraggingOver={snapshot.isDraggingOver} {...provided.draggableProps}>
-            <CardTitle>
-              {card.title}
-            </CardTitle>
-            <PlayerContainer ref={provided2.innerRef} {...provided2.droppableProps}>
-              {players.map((player, index) => <Player key={player.id} player={player} index={index} /> )}
-              {provided2.placeholder}
-            </PlayerContainer>
-          </CardContainer>
-          )}
-        </Droppable>
+    <Droppable droppableId={card.id} type="player">
+      {(provided, snapshot) => (
+      <CardContainer color={card.color} isDraggingOver={snapshot.isDraggingOver} >
+        <CardTitle>
+          {card.title}
+        </CardTitle>
+        <PlayerContainer ref={provided.innerRef} {...provided.droppableProps}>
+          {players.map((player, index) => <Player key={player.id} player={player} index={index} /> )}
+          {provided.placeholder}
+        </PlayerContainer>
+      </CardContainer>
       )}
-    </Draggable>
+    </Droppable>
   );
 }
 

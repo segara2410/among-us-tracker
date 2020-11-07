@@ -14,10 +14,7 @@ const Title = styled.h1`
 
 const CardContainer = styled.div`
   width: 100%;
-  display: flex;
   justify-content: center;
-  align-items: flex-start;
-  margin-top: 25px;
 `
 
 const App = () => {
