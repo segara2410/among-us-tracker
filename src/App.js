@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from './Card';
 import styled from 'styled-components';
 import {initialData} from './initialData.js';
@@ -15,10 +15,18 @@ const Title = styled.h1`
 const CardContainer = styled.div`
   width: 100%;
   justify-content: center;
+  ${props => (props.isWide ? 'display: flex; align-items: flex-start;' : '')}
 `
 
 const App = () => {
   const [state, setState] = useState(initialData);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setWindowWidth(window.innerWidth);
+    });
+  }, []);
 
   const onDragEnd = (result) => {
     const {draggableId, source, destination, type} = result;
@@ -96,7 +104,7 @@ const App = () => {
       <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="all-cards" direction="horizontal" type="card">
             {(provided) => (
-              <CardContainer ref={provided.innerRef} {...provided.droppableProps}>
+              <CardContainer ref={provided.innerRef} {...provided.droppableProps} isWide={windowWidth > 1366 ? true : false}>
                 {
                   state.cardOrder.map((cardId, index) => {
                     const card = state.cards[cardId];

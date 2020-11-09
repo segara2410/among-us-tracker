@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Player from './Player';
 import styled from 'styled-components';
 import {Droppable} from 'react-beautiful-dnd';
 
 const CardContainer = styled.div`
-  width: 180px;
+  width: ${props => (props.isWide ? '20vw' : '180px;')};
   margin: 25px 25px;
   background: ${props => props.color};
   border: ${props => (props.isDraggingOver ? '4px dashed #FFF' : '4px dashed rgba(0,0,0,0)')};
@@ -30,10 +30,18 @@ const PlayerContainer = styled.div`
 `
 
 function Card({card, players}) {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setWindowWidth(window.innerWidth);
+    });
+  }, []);
+
   return (
     <Droppable droppableId={card.id} type="player">
       {(provided, snapshot) => (
-      <CardContainer color={card.color} isDraggingOver={snapshot.isDraggingOver} >
+      <CardContainer color={card.color} isDraggingOver={snapshot.isDraggingOver} isWide={windowWidth > 1366 ? true : false}>
         <CardTitle>
           {card.title}
         </CardTitle>

@@ -22,7 +22,7 @@ export const initialData = {
     },
     'card-2': {
       id: 'card-2',
-      title: 'Innoncent',
+      title: 'Innocent',
       playerIds: [],
       color: '#14E668',
     },
