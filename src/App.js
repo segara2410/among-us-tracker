@@ -3,6 +3,7 @@ import Card from './Card';
 import styled from 'styled-components';
 import {initialData} from './initialData.js';
 import {DragDropContext, Droppable} from 'react-beautiful-dnd';
+import { AiOutlineReload } from "react-icons/ai";
 
 const Title = styled.h1`
   color: #7B7B7B;
@@ -11,6 +12,13 @@ const Title = styled.h1`
   text-align: center;
   padding-top: 25px;
 `
+
+const ResetIcon = {
+  cursor: 'pointer',
+  border: 'none',
+  height: '20px',
+  width: '20px',
+}
 
 const CardContainer = styled.div`
   width: 100%;
@@ -27,6 +35,10 @@ const App = () => {
       setWindowWidth(window.innerWidth);
     });
   }, []);
+
+  const handleReset = () => {
+    setState(initialData);
+  };
 
   const onDragEnd = (result) => {
     const {draggableId, source, destination, type} = result;
@@ -100,7 +112,7 @@ const App = () => {
 
   return (
     <React.Fragment>
-      <Title>Among Us Tracker</Title>
+      <Title>Among Us Tracker <AiOutlineReload onClick={handleReset} style={ResetIcon}/></Title>
       <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="all-cards" direction="horizontal" type="card">
             {(provided) => (
